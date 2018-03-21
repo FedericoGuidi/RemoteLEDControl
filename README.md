@@ -1,2 +1,2 @@
 # RemoteLEDControl
-Demo powered by Zerynth, using an STM32F401 Nucleo board to control LEDs via WiFi with your smartphone.
+Demo using an STM32F401 Nucleo board and Zerynth (middleware for IoT) to control LEDs via WiFi with your smartphone.
