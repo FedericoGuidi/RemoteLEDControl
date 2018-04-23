@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Remote LED Control</title>
+    <!-- LOAD JQUERY AND BOOTSTRAP -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- LOAD THE ZERYNTH ADM JS LIBRARY -->
+    <script src="https://api.zerynth.com/zadm/latest/z.js"></script> 
+    <!-- CSS STYLE AND JAVASCRIPT -->
+    <link rel="stylesheet" href="style.css">
+
+  </head>
+  <body>
+    <div style="text-align:center">
+      <p id="status" style="background:#ddd;font-weight:bold"></p>
+      <h2>Remote LED Control</h2>
+        <div style="display: inline-block; margin: auto">
+            <div style="float: left; height: 34px; line-height: 34px">
+                Turn your led <span id="text-on-off">on</span>:
+            </div>
+            <div style="width: 70px; margin-left: 105px">
+                <label class="switch">
+                    <input type="checkbox" id="on-off">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+        <br>
+        <div style="display: inline-block; margin: auto; margin-left: 70px">
+            <div style="float: left; height: 34px; line-height: 34px;">
+                <b>RED</b>
+            </div>
+            <div style="width: 70px; margin-left: 35px">
+                <label class="switch">
+                    <input type="checkbox" id="red-led">
+                    <span class="slider round red"></span>
+                </label>
+            </div>
+        </div>
+        <br>
+        <div style="display: inline-block; margin: auto; margin-left: 50px">
+            <div style="float: left; height: 34px; line-height: 34px;">
+                <b>GREEN</b>
+            </div>
+            <div style="width: 70px; margin-left: 54px">
+                <label class="switch">
+                    <input type="checkbox" id="green-led">
+                    <span class="slider round green"></span>
+                </label>
+            </div>
+        </div>
+        <br>
+        <div style="display: inline-block; margin: auto; margin-left: 59px">
+            <div style="float: left; height: 34px; line-height: 34px;">
+                <b>BLUE</b>
+            </div>
+            <div style="width: 70px; margin-left: 44px">
+                <label class="switch">
+                    <input type="checkbox" id="blue-led">
+                    <span class="slider round blue"></span>
+                </label>
+            </div>
+        </div>
+        <br><br>
+        <div class="current-color"><b>CURRENT COLOR</b></div>
+        <br>
+        <div style="text-align: center; display: inline-block; margin: auto;">
+            <button class="rainbow"><b>Rainbow mode!</b></button>
+        </div>
+    </div>
+      <div class="footer">
+          Remote LED Control v1.0 © 2018
+      </div>
+    <script>
+    
+        var red = false;
+        var green = false;
+        var blue = false;
+
+        //callback for remote random method
+        function on_callback(msg){
+            // do somethings
+        }
+
+        function off_callback(msg){
+            // do something
+        }
+
+        $("#on-off").change(function() {
+            if(this.checked) {
+                Z.call('turn_on',[]);
+                $("#text-on-off").html("off")
+            } else {
+                Z.call('turn_off',[]);
+                $("#text-on-off").html("on")
+            }
+        });
+
+        $("#red-led").change(function() {
+            red = !red;
+            Z.call('RED',[]);
+        });
+
+        $("#green-led").change(function() {
+            green = !green;
+            Z.call('GREEN',[]);
+        });
+
+        $("#blue-led").change(function() {
+            blue = !blue;
+            Z.call("BLUE",[]);
+        });
+
+
+        $(document).ready(function() {
+          // initialize the Z object
+          Z.init({
+            on_connected:  function(){$("#status").html("CONNECTED")},
+            on_error:  function(){$("#status").html("ERROR")},
+            on_disconnected:  function(){$("#status").html("DISCONNECTED"); return true},
+            on_online:  function(evt){$("#status").html("ONLINE");},
+            on_offline:  function(evt){$("#status").html("OFFLINE");},
+            on_event:  function(evt){
+                //display received event
+                $("#status").html("EVENT!"+JSON.stringify(evt)); 
+            }
+          })
+        });
+    </script>
+  </body>
+</html>
