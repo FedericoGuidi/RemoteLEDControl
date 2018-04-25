@@ -3,16 +3,46 @@
     border-radius: 2px;
     width: 200px;
     height: 50px;
-    line-height: 50px;
+    line-height: 48px;
     text-align: center;
     margin: auto;
 }
 
 .rainbow {
+    color: white;
+    text-shadow: 0px 0px 2px #333;
     width: 200px;
     height: 50px;
-    border: 2px solid #333;
+    border: 2px solid white;
+    box-shadow: 0px 0px 2px #333;
     border-radius: 2px;
+    background: white; /* For browsers that do not support gradients */
+    background-image: repeating-linear-gradient(-45deg,
+      #c4e17f 0px, #c4e17f 25px,
+      #f7fdca 25px, #f7fdca 50px,
+      #fad071 50px, #fad071 75px,
+      #f0766b 75px, #f0766b 100px,
+      #db9dbe 100px, #db9dbe 125px,
+      #c49cdf 125px, #c49cdf 150px,
+      #6599e2 150px, #6599e2 175px,
+      #61c2e4 175px, #61c2e4 200px);
+    background-size: 283px;
+}
+
+.moving{
+    -webkit-animation: slide 10s linear infinite;
+}
+
+.paused{
+    -webkit-animation-play-state:paused;
+    -moz-animation-play-state:paused;
+    -o-animation-play-state:paused; 
+    animation-play-state:paused;
+}
+
+@-webkit-keyframes slide {
+    from { background-position: 0 0; }
+    to { background-position: -283px 0; }
 }
 
 .footer {

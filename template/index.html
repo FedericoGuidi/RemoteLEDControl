@@ -72,7 +72,7 @@
         <div class="current-color"><b>CURRENT COLOR</b></div>
         <br>
         <div style="text-align: center; display: inline-block; margin: auto;">
-            <button class="rainbow"><b>Rainbow mode!</b></button>
+            <button class="rainbow" id="rainbow-button"><b>Rainbow mode!</b></button>
         </div>
     </div>
       <div class="footer">
@@ -83,6 +83,7 @@
         var red = false;
         var green = false;
         var blue = false;
+        var rainbow = false;
 
         //callback for remote random method
         function on_callback(msg){
@@ -90,6 +91,10 @@
         }
 
         function off_callback(msg){
+            // do something
+        }
+        
+        function check_callback(msg){
             // do something
         }
 
@@ -116,8 +121,18 @@
         $("#blue-led").change(function() {
             blue = !blue;
             Z.call("BLUE",[]);
+            Z.call("check", [], check_callback);
         });
-
+        
+        $("#rainbow-button").click(function() {
+            rainbow = !rainbow
+            if(rainbow){
+                $("#rainbow-button").addClass('moving');
+                $("#rainbow-button").removeClass('paused');
+            } else {
+                $("#rainbow-button").addClass('paused');
+            }
+        })
 
         $(document).ready(function() {
           // initialize the Z object
@@ -132,6 +147,10 @@
                 $("#status").html("EVENT!"+JSON.stringify(evt)); 
             }
           })
+        });
+        
+        $(window).load(function() {
+            Z.call("check", [2], check_callback);
         });
     </script>
   </body>
