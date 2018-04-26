@@ -6,6 +6,9 @@
     line-height: 48px;
     text-align: center;
     margin: auto;
+    -webkit-transition:all 500ms linear;
+    -ms-transition: all 500ms linear;
+    transition: all 500ms linear;
 }
 
 .rainbow {

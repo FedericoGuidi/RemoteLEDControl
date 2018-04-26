@@ -21,6 +21,7 @@
     <div style="text-align:center">
       <p id="status" style="background:#ddd;font-weight:bold"></p>
       <h2>Remote LED Control</h2>
+      <br>
         <div style="display: inline-block; margin: auto">
             <div style="float: left; height: 34px; line-height: 34px">
                 Turn your led <span id="text-on-off">on</span>:
@@ -69,7 +70,7 @@
             </div>
         </div>
         <br><br>
-        <div class="current-color"><b>CURRENT COLOR</b></div>
+        <div class="current-color" id="current-color"><b>CURRENT COLOR</b></div>
         <br>
         <div style="text-align: center; display: inline-block; margin: auto;">
             <button class="rainbow" id="rainbow-button"><b>Rainbow mode!</b></button>
@@ -97,6 +98,41 @@
         function check_callback(msg){
             // do something
         }
+        
+        function color_background(){
+            if (red){
+                $("#current-color").css("background-color","red");
+                $("#current-color").css("color","white");
+            }
+            if (green){
+                $("#current-color").css("background-color","green");
+                $("#current-color").css("color","white");
+            }
+            if (blue){
+                $("#current-color").css("background-color","blue");
+                $("#current-color").css("color","white");
+            }
+            if (red && blue){
+                $("#current-color").css("background-color","purple");
+                $("#current-color").css("color","white");
+            }
+            if (green && red){
+                $("#current-color").css("background-color","yellow");
+                $("#current-color").css("color","#333");
+            }
+            if (blue && green){
+                $("#current-color").css("background-color","cyan");
+                $("#current-color").css("color","white");
+            }
+            if (red && blue && green){
+                $("#current-color").css("background-color","white");
+                $("#current-color").css("color","#333");
+            }
+            if (!red && !blue && !green){
+                $("#current-color").css("background-color","white");
+                $("#current-color").css("color","#333");
+            }
+        }
 
         $("#on-off").change(function() {
             if(this.checked) {
@@ -111,17 +147,19 @@
         $("#red-led").change(function() {
             red = !red;
             Z.call('RED',[]);
+            color_background();
         });
 
         $("#green-led").change(function() {
             green = !green;
             Z.call('GREEN',[]);
+            color_background();
         });
 
         $("#blue-led").change(function() {
             blue = !blue;
             Z.call("BLUE",[]);
-            Z.call("check", [], check_callback);
+            color_background();
         });
         
         $("#rainbow-button").click(function() {
@@ -129,8 +167,10 @@
             if(rainbow){
                 $("#rainbow-button").addClass('moving');
                 $("#rainbow-button").removeClass('paused');
+                Z.call("RAINBOW",[])
             } else {
                 $("#rainbow-button").addClass('paused');
+                Z.call("STOP",[])
             }
         })
 
@@ -147,10 +187,6 @@
                 $("#status").html("EVENT!"+JSON.stringify(evt)); 
             }
           })
-        });
-        
-        $(window).load(function() {
-            Z.call("check", [2], check_callback);
         });
     </script>
   </body>
