@@ -1,6 +1,4 @@
 from wireless import wifi
-# this example is based on Particle Photon
-# change the following line to use a different wifi driver
 from espressif.esp8266wifi import esp8266wifi as wifi_driver
 import streams
 import threading
@@ -13,6 +11,10 @@ streams.serial()
 sleep(1000)
 print("STARTING...")
 
+# save the index.html in the board flash
+new_resource("template/index.html")
+
+# set the LED pins as outputs
 pinMode(D0,OUTPUT) # red
 pinMode(D1,OUTPUT) # green
 pinMode(D2,OUTPUT) # blue
@@ -21,10 +23,12 @@ pinMode(D2,OUTPUT) # blue
 current_r = LOW
 current_g = LOW
 current_b = LOW
+
+# global variables
 on = False
 stopped = False
 
-# define a RPC function: generate a random number
+# RPC functions to manage the LED
 def turn_on():
     global on
     on = True
@@ -108,16 +112,8 @@ def rainbow_stop():
     global stopped
     stopped = True
 
-
-# send events on button pressed
-def on_btn():
-    zapp.event({"my_button":"pressed"})
-
-onPinFall(BTN0,on_btn,debounce=1000)
-
-
 # Device UID and TOKEN can be created in the ADM panel
-zapp = zerynthapp.ZerynthApp("_vb0ElDHQy-cfNsXUORK0Q", "h9aIzQJ3QsiQIPrSLQy4pA", log=True)
+zapp = zerynthapp.ZerynthApp("UID", "TOKEN", log=True)
 
 # link Python functions to Javascript
 zapp.on("turn_on", turn_on)
@@ -133,7 +129,7 @@ try:
     wifi_driver.auto_init()
     for i in range(0,5):
         try:
-            wifi.link("NETGEAR_EXT",wifi.WIFI_WPA2,"7349886F52")
+            wifi.link("SSID",wifi.WIFI_WPA2,"PASSWORD")
             break
         except Exception as e:
             print("Can't link",e)
@@ -154,3 +150,4 @@ try:
         
 except Exception as e:
     print(e)
+    
