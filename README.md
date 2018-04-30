@@ -2,7 +2,7 @@
 This is a quick demonstration of the Zerynth ecosystem. This demo lets you manage an RGB LED via WiFi with your smartphone, thanks to the Zerynth App and a NodeMCU v2 board programmed with Python.
 
 ## How to run the demo
-The full guide is available here on Hackster \**link coming soon*\*
+The full guide is available here on Hackster: https://www.hackster.io/federico-guidi/remote-led-control-via-wi-fi-using-zerynth-app-4b9937
 
 These are the basic steps:
 - Download Zerynth Studio
